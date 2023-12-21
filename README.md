@@ -25,7 +25,7 @@ ssh-keygen -t rsa -b 2048 -f keys/web_server_key -N ''
 ssh-copy-id -i keys/web_server_key.pub user@managed_node_ip
 ```
 
-### 4. secret_vars.yml.sample の作成
+### 4. secret_vars.yml の作成
 
 ```sh
 cp secret_vars.yml.sample secret_vars.yml
@@ -33,10 +33,18 @@ cp secret_vars.yml.sample secret_vars.yml
 
 `secret_vars.yml.sample` をコピーし、`secret_vars.yml` を作成します。
 
-### 5. secret_vars.yml の編集
+### 5. secret_vars.yml の編集と暗号化
 
 ```sh
-ansible-vault edit secret_vars.yml
+vi secret_vars.yml
+```
+
+エディタで SSH キーなどの情報を入力します。保存してエディタを閉じます。
+
+編集が完了したら、以下のコマンドで secret_vars.yml を暗号化します。
+
+```sh
+ansible-vault encrypt secret_vars.yml
 ```
 
 ## Ansible の実行
