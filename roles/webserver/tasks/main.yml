@@ -1,14 +1,23 @@
 ---
+- name: Update package cache
+  package:
+    name: "*"
+    state: latest
+  when:
+    - "'RedHat' in ansible_os_family"
+    - "'Debian' in ansible_os_family"
+
 - name: Install Nginx
-  ansible.builtin.apt:
+  package:
     name: nginx
     state: present
 
-- name: Start Nginx Service
-  ansible.builtin.service:
-    name: nginx
-    state: started
-    enabled: yes
+- name: Copy Nginx default configuration
+  template:
+    src: nginx-default.conf.j2
+    dest: /etc/nginx/conf.d/default.conf
+  notify:
+    - Restart Nginx
 
 - name: Copy index.html
   ansible.builtin.copy:
